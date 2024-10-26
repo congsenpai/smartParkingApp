@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_smart_parking_app/screens/detail_parking_screent.dart';
 import 'package:project_smart_parking_app/screens/home_screent.dart';
+import 'package:project_smart_parking_app/screens/parking_order_screent.dart';
 import 'package:project_smart_parking_app/screens/welcome_screens.dart';
 
 void main() {
@@ -18,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: ParkingScreen(),
     );
   }
 }
