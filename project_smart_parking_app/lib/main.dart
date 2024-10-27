@@ -4,7 +4,7 @@ import 'package:project_smart_parking_app/screens/booking_parking_screen.dart';
 import 'package:project_smart_parking_app/screens/detail_booking.dart';
 import 'package:project_smart_parking_app/screens/home_screen.dart';
 import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
-import 'package:project_smart_parking_app/screens/welcome_screens.dart';
+import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
 
 void main() {
   runApp(const MyApp());

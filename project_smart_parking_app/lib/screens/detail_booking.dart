@@ -17,7 +17,51 @@ class _DetailBookingState extends State<DetailBooking> {
   final double PriceOf1hourCar = 20000;
   final double PriceOf1hourMoto = 20000;
   double Total =0;
+  double Insaurence = 0.01;
+  TimeOfDay? TotalTime ;
+
   final StringURl = "assets/images/Location1_HVNH/HvnhMain.png";
+  DateTime? selectedDateStart;
+  DateTime? selectedDateEnd;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+
+  void calculateTotalCar() {
+    if (startTime != null && endTime != null && selectedDateStart != null && selectedDateEnd != null) {
+      DateTime startDateTime = DateTime(
+        selectedDateStart!.year,
+        selectedDateStart!.month,
+        selectedDateStart!.day,
+        startTime!.hour,
+        startTime!.minute,
+      );
+
+      DateTime endDateTime = DateTime(
+        selectedDateEnd!.year,
+        selectedDateEnd!.month,
+        selectedDateEnd!.day,
+        endTime!.hour,
+        endTime!.minute,
+      );
+
+      if (selectedDateStart!.isBefore(selectedDateEnd!) ||
+          (selectedDateStart!.isAtSameMomentAs(selectedDateEnd!) && startTime!.hour < endTime!.hour) ||
+          (selectedDateStart!.isAtSameMomentAs(selectedDateEnd!) && startTime!.hour == endTime!.hour && startTime!.minute < endTime!.minute)) {
+
+        final int totalMinutes = endDateTime.difference(startDateTime).inMinutes;
+
+        // Tính tổng thời gian và chỉ lưu giờ vào TotalTime
+        TotalTime = TimeOfDay(hour: totalMinutes ~/ 60, minute: totalMinutes % 60);
+        Total = (totalMinutes / 60) * PriceOf1hourCar * (1 - Insaurence);
+      } else {
+        // Ngày bắt đầu lớn hơn hoặc bằng ngày kết thúc
+        print('Ngày bắt đầu phải nhỏ hơn ngày kết thúc, hoặc nếu ngày giống nhau, giờ bắt đầu phải nhỏ hơn giờ kết thúc!');
+      }
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,79 +128,166 @@ class _DetailBookingState extends State<DetailBooking> {
                 ],
               ),
               // tổng thời gian
+
               Padding(
-                padding: EdgeInsets.all(Get.width/20),
+                padding: EdgeInsets.all(Get.width / 20),
                 child: Column(
                   children: [
-                    Text("Total Hours", style: TextStyle(
-                        fontSize: Get.width/25,
-                      fontWeight: FontWeight.bold,
-
+                    Text(
+                      "Chọn ngày và thời gian",
+                      style: TextStyle(
+                        fontSize: Get.width / 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    SizedBox(height: Get.width / 25),
+                    Padding(
+                      padding:  EdgeInsets.all(Get.width/ 25),
+                      child: Table(
+                        columnWidths: const {
+                          0: FlexColumnWidth(2),
+                          1: FlexColumnWidth(1),
+                        },
+                        children: [
+                          TableRow(
+
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2020),
+                                    lastDate: DateTime(2101),
+                                  );
+                                  if (pickedDate != null) {
+                                    setState(() {
+                                      selectedDateStart = pickedDate;
+                                    });
+                                  }
+                                },
+                                child: const Text("Chọn Ngày Bắt Đầu",style: TextStyle(
+                                  color: Colors.black
+                                ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  selectedDateStart != null ? '${selectedDateStart!.toLocal()}'.split(' ')[0] : 'Chưa chọn',
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  TimeOfDay? pickedTime = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.now(),
+                                  );
+                                  if (pickedTime != null) {
+                                    setState(() {
+                                      startTime = pickedTime;
+                                    });
+                                  }
+                                },
+                                child: const Text("Chọn Thời Gian Bắt Đầu",style: TextStyle(
+                                    color: Colors.black
+                                ),),
+                              ),
+                              Container(
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  startTime != null ? startTime!.format(context) : 'Chưa chọn',
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2020),
+                                    lastDate: DateTime(2101),
+                                  );
+                                  if (pickedDate != null) {
+                                    setState(() {
+                                      selectedDateEnd = pickedDate;
+                                    });
+                                  }
+                                },
+                                child: const Text("Chọn Ngày Kết Thúc",style: TextStyle(
+                                    color: Colors.black
+                                ),),
+                              ),
+                              Container(
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  selectedDateEnd != null ? '${selectedDateEnd!.toLocal()}'.split(' ')[0] : 'Chưa chọn',
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: ElevatedButton(
+
+                                  onPressed: () async {
+                                    TimeOfDay? pickedTime = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.now(),
+                                    );
+                                    if (pickedTime != null) {
+                                      setState(() {
+                                        endTime = pickedTime;
+                                        calculateTotalCar();
+                                      });
+                                    }
+                                  },
+                                  child: const Text("Chọn Thời Gian Kết Thúc",style: TextStyle(
+                                      color: Colors.black
+                                  ),
+                                  ),
+
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  endTime != null &&
+                                      ((selectedDateEnd != null && endTime!.hour > startTime!.hour) ||
+                                          (selectedDateEnd != null && endTime!.hour == startTime!.hour && endTime!.minute > startTime!.minute))
+                                      ? endTime!.format(context)
+                                      : 'Chưa chọn hoặc không hợp lệ',
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      ),
                     ),
-                    SizedBox(height: Get.width/25,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          height: Get.width/10,
-                            width: Get.width/4,
-
-
-                            child: ElevatedButton(
-                                onPressed: (){},
-                                child: const Row(
-                                  children: [
-                                    Icon(CupertinoIcons.clock_fill),
-                                    Spacer(),
-                                    Text('1h')
-                                  ],
-                                )
-                            )
-                        ),
-                        Spacer(),
-                        Container(
-                            height: Get.width/10,
-                            width: Get.width/4,
-
-
-                            child: ElevatedButton(
-                                onPressed: (){},
-                                child: const Row(
-                                  children: [
-                                    Icon(CupertinoIcons.clock_fill),
-                                    Spacer(),
-                                    Text('5h')
-                                  ],
-                                )
-                            )
-                        ),
-                        Spacer(),
-                        Container(
-                            height: Get.width/10,
-                            width: Get.width/4,
-
-
-                            child: ElevatedButton(
-                                onPressed: (){},
-                                child: const Row(
-                                  children: [
-                                    Icon(CupertinoIcons.clock_fill),
-                                    Spacer(),
-                                    Text('10h')
-                                  ],
-                                )
-                            )
-                        )
-                      ],
-                    )
                   ],
                 ),
-
-
               ),
-              // phương thức thanh toán
+
+        // phương thức thanh toán
               Padding(
                 padding: EdgeInsets.all(Get.width/20),
                 child: Column(
@@ -240,12 +371,22 @@ class _DetailBookingState extends State<DetailBooking> {
                         Container(
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.all(8.0),
-                          child: const Text('Total Hour'),
+
+                          child: Text(
+                              'Total Time'
+                          ),
                         ),
                         Container(
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.all(8.0),
-                          child: const Text('Cột 2 - Dòng 2'),
+
+                          child: Text(
+                            TotalTime != null
+                                ? '${TotalTime!.hour} giờ'  // Hiển thị chỉ giờ
+                                : 'Chưa chọn giờ',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+
                         ),
                       ],
                     ),
@@ -281,6 +422,7 @@ class _DetailBookingState extends State<DetailBooking> {
                   ],
                 ),
               ),
+              // thanh toán
               Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(8.0),
