@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ParkingScreen extends StatefulWidget {
   const ParkingScreen({super.key});
@@ -9,6 +10,7 @@ class ParkingScreen extends StatefulWidget {
 
 class _ParkingScreenState extends State<ParkingScreen> {
   String selectedFloor = 'Car';
+  String lostSlot = ''; // Lưu vị trí đã chọn
 
   // Danh sách các vị trí đã có xe
   final List<String> occupiedSlotsCar = ['A1', 'A2', 'B1', 'B4'];
@@ -26,8 +28,8 @@ class _ParkingScreenState extends State<ParkingScreen> {
         ),
         centerTitle: true,
         leading: const Icon(Icons.arrow_back, color: Colors.black),
-        actions: [
-          const Icon(Icons.favorite_border, color: Colors.black),
+        actions: const [
+          Icon(Icons.favorite_border, color: Colors.black),
         ],
       ),
       body: Column(
@@ -46,14 +48,14 @@ class _ParkingScreenState extends State<ParkingScreen> {
           // Parking Lots Section
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: Get.width / 30),
               children: [
                 if (selectedFloor == 'Car') ...[
-                  _buildParkingSectionCar('A', ['A1', 'A2', 'A4', 'A5']),
-                  _buildParkingSectionCar('B', ['B1', 'B2', 'B4', 'B5']),
+                  _buildParkingSection('A', ['A1', 'A2', 'A4', 'A5'], occupiedSlotsCar),
+                  _buildParkingSection('B', ['B1', 'B2', 'B4', 'B5'], occupiedSlotsCar),
                 ] else ...[
-                  _buildParkingSectionMotor('A', ['A1', 'A2', 'A4', 'A5']),
-                  _buildParkingSectionMotor('B', ['B1', 'B2', 'B4', 'B5']),
+                  _buildParkingSection('A', ['A1', 'A2', 'A4', 'A5'], occupiedSlotsMoto),
+                  _buildParkingSection('B', ['B1', 'B2', 'B4', 'B5'], occupiedSlotsMoto),
                 ],
               ],
             ),
@@ -75,6 +77,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
       onPressed: () {
         setState(() {
           selectedFloor = floor;
+          lostSlot = ''; // Reset vị trí chọn khi chuyển tầng
         });
       },
       child: Text(
@@ -86,10 +89,10 @@ class _ParkingScreenState extends State<ParkingScreen> {
     );
   }
 
-  // Parking section widget for cars
-  Widget _buildParkingSectionCar(String section, List<String> slots) {
+  // Parking section widget
+  Widget _buildParkingSection(String section, List<String> slots, List<String> occupiedSlots) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.symmetric(vertical: Get.width / 25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -97,42 +100,44 @@ class _ParkingScreenState extends State<ParkingScreen> {
             children: [
               Text(
                 section,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: Get.width / 15, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(width: 8),
-              const Text(
-                'Parking Lots',
-                style: TextStyle(color: Colors.grey),
+              SizedBox(width: Get.width / 30),
+              Text(
+                'Parking Slot',
+                style: TextStyle(color: Colors.grey, fontSize: Get.width / 20),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: Get.width / 30),
               const Icon(Icons.crop, color: Colors.blue, size: 20),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: Get.width / 30),
           GridView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(), // Disable scrolling
             itemCount: slots.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 2.5,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
+              crossAxisSpacing: Get.width / 30,
+              mainAxisSpacing: Get.width / 30,
             ),
             itemBuilder: (context, index) {
               String slot = slots[index];
-              bool isOccupied = occupiedSlotsCar.contains(slot);
+              bool isOccupied = occupiedSlots.contains(slot);
               return GestureDetector(
                 onTap: () {
                   if (!isOccupied) {
-                    // Hiện thông báo nổi khi ô còn trống được chọn
+                    setState(() {
+                      lostSlot = slot; // Cập nhật vị trí chọn
+                    });
                     _showBookingDialog(slot);
                   }
                 },
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color: lostSlot == slot ? Colors.blue : Colors.grey[200],
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: isOccupied
@@ -155,76 +160,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
     );
   }
 
-  // Parking section widget for motorcycles
-  Widget _buildParkingSectionMotor(String section, List<String> slots) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                section,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'Parking Lots',
-                style: TextStyle(color: Colors.grey),
-              ),
-              const SizedBox(width: 8),
-              const Icon(Icons.crop, color: Colors.blue, size: 20),
-            ],
-          ),
-          const SizedBox(height: 8),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: slots.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 2.5,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
-            itemBuilder: (context, index) {
-              String slot = slots[index];
-              bool isOccupied = occupiedSlotsMoto.contains(slot);
-              return GestureDetector(
-                onTap: () {
-                  if (!isOccupied) {
-                    // Hiện thông báo nổi khi ô còn trống được chọn
-                    _showBookingDialog(slot);
-                  }
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: isOccupied
-                      ? Image.asset(
-                    'assets/images/detail/motoImage.png',
-                    width: 50,
-                    height: 30,
-                    fit: BoxFit.cover,
-                  )
-                      : Text(
-                    slot,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Thêm phương thức để hiển thị thông báo nổi
+  // Phương thức để hiển thị thông báo nổi
   void _showBookingDialog(String slot) {
     showDialog(
       context: context,
@@ -237,13 +173,16 @@ class _ParkingScreenState extends State<ParkingScreen> {
             TextButton(
               child: const Text('Book Now', style: TextStyle(color: Colors.blue)),
               onPressed: () {
-                print('Parking slot $slot selected!');
+                print('Parking slot $slot selected!'); // In ra vị trí đã chọn
                 Navigator.of(context).pop(); // Đóng dialog
               },
             ),
             TextButton(
               child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
               onPressed: () {
+                setState(() {
+                  lostSlot = ''; // Reset vị trí chọn khi huỷ
+                });
                 Navigator.of(context).pop(); // Đóng dialog
               },
             ),
