@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import 'otp_verify_screen.dart';
+
 class SmartParkingApp extends StatelessWidget {
   const SmartParkingApp({super.key});
 
@@ -103,6 +105,7 @@ class WelcomeScreens1 extends StatefulWidget {
 
 class _WelcomeScreens1State extends State<WelcomeScreens1> {
   String phoneNumber = '';
+  bool isValidPhoneNumber = false;
 
   @override
   Widget build(BuildContext context) {
@@ -115,9 +118,8 @@ class _WelcomeScreens1State extends State<WelcomeScreens1> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              return
-                SingleChildScrollView(
-                  child: Expanded(
+              return SingleChildScrollView(
+                child: Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -160,55 +162,76 @@ class _WelcomeScreens1State extends State<WelcomeScreens1> {
                             style: TextStyle(
                               fontSize: 18,
                               decoration: TextDecoration.none,
-                              color: Colors.white12,
+                              color: Colors.white70,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(height: Get.height/8,),
+                      SizedBox(
+                        height: Get.height / 8,
+                      ),
                       IntlPhoneField(
                         decoration: const InputDecoration(
                           labelText: 'Phone Number',
-                          labelStyle: TextStyle(color: Colors.white),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(),
                           ),
                         ),
-                        style: const TextStyle(color: Colors.white),
-                        initialCountryCode: 'US', // Đặt mã quốc gia mặc định
-                        onChanged: (phone) {
-                          setState(() {
-                            phoneNumber = phone.completeNumber;
-                          });
+                        initialCountryCode: 'VN',
+                        dropdownTextStyle: const TextStyle(color: Colors.white),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                        validator: (phone) {
+                          if (phone == null || phone.number.length != 10) {
+                            return 'Input is not a valid phone number';
+                          } else {
+                            setState(() {
+                              phoneNumber = phone.completeNumber;
+                              isValidPhoneNumber = true;
+                            });
+                            return null;
+                          }
                         },
                       ),
-                      SizedBox(height: Get.height/10),
-                      ElevatedButton(
-                        onPressed: () {
-                          // triggered event when clicking
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF4040FD),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 80, vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: const Text(
-                          'Get the OTP code',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                      SizedBox(height: Get.height / 10),
+                      isValidPhoneNumber
+                          ? ElevatedButton(
+                              onPressed: () {
+                                // triggered event when clicking
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OTPVerifyScreen(
+                                      phoneNumber: phoneNumber,
+                                      verificationId: '',
+                                    ),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF4040FD),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 80, vertical: 15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              child: const Text(
+                                'Get the OTP code',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          : SizedBox(height: Get.height / 10),
                     ],
                   ),
-                                ),
-                );
+                ),
+              );
             },
           ),
         ),
