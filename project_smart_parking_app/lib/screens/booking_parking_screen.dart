@@ -13,9 +13,9 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
 
   final List<String> _imagePaths = [
     "assets/images/Location1_HVNH/HvnhMain.png",
-    "assets/images/Location1_HVNH/Image1.png",
-    "assets/images/Location1_HVNH/Image2.png",
-    "assets/images/Location1_HVNH/Image3.png",
+    "assets/images/AnhAppbar.png",
+    "assets/images/Location1_HVNH/HvnhMain.png",
+    "assets/images/Location1_HVNH/HvnhMain.png",
   ];
 
   @override
@@ -25,12 +25,12 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.favorite_border, color: Colors.black),
+            icon: const Icon(Icons.favorite_border, color: Colors.black),
             onPressed: () {},
           ),
         ],

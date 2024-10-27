@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_smart_parking_app/screens/detail_parking_screen.dart';
-import 'package:project_smart_parking_app/screens/home_screent.dart';
+import 'package:project_smart_parking_app/screens/booking_parking_screen.dart';
+import 'package:project_smart_parking_app/screens/detail_booking.dart';
+import 'package:project_smart_parking_app/screens/home_screen.dart';
 import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
 import 'package:project_smart_parking_app/screens/welcome_screens.dart';
 
@@ -18,9 +19,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ParkingScreen(),
+      home: DetailBooking(),
     );
   }
 }
