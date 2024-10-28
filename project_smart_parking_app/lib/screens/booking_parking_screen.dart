@@ -197,7 +197,9 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Text("Explore Parking Spots"),
+            child: Text("Explore Parking Spots", style: TextStyle(
+
+            ),),
           ),
         ),
       ],
