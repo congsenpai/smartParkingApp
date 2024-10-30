@@ -1,137 +1,127 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../utils/sayHello.dart';
 
-String nameUser = "Nguyen Duc Cong";
-String hello = getTimeBasedGreeting() + nameUser;
+class OtpScreen extends StatelessWidget {
+  const OtpScreen({super.key});
 
-class OTPVerifyScreen extends StatefulWidget {
-  final String phoneNumber;
-  const OTPVerifyScreen({super.key, required this.phoneNumber,required this.verificationId});
-  final String verificationId; // Nhận verificationId từ Firebase
-
-  @override
-  State<OTPVerifyScreen> createState() => _OTPVerifyScreenState();
-}
-
-class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
-  final TextEditingController otpController = TextEditingController();
-
-  void verifyOTP() async {
-    String otp = otpController.text;
-
-    // Tạo PhoneAuthCredential từ OTP và verificationId
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: widget.verificationId,
-      smsCode: otp,
-    );
-    
-    try {
-      await FirebaseAuth.instance.signInWithCredential(credential);
-      print('OTP verified successfully');
-    } catch (e) {
-      print('Failed to verify OTP: $e');
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF070201),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: constraints.maxHeight / 30),
-                    Center(
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        width: Get.width / 2.2,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    SizedBox(height: constraints.maxHeight / 12),
-                    Center(
-                      child: CircleAvatar(
-                        radius: Get.width / 6,
-                        child: const Icon(
-                          Icons.verified_user_rounded,
-                          size: 60,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: constraints.maxHeight / 45),
-                    Center(
-                      child: Text(
-                        hello,
-                        style: const TextStyle(
-                          fontSize: 35,
-                          decoration: TextDecoration.none,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: constraints.maxHeight / 35),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 4, right: 4),
-                        child: Text(
-                          "We will send the OTP message to ${widget.phoneNumber} and verify your account right now",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            decoration: TextDecoration.none,
-                            color: Colors.white12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height / 8,
-                    ),
-                    // OTP code here
-                    TextField(
-                      controller: otpController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: 'Enter OTP'),
-                    ),
-                    SizedBox(height: Get.height / 10),
-
-                    ElevatedButton(
-                      child: const Text(
-                        "Resend the OTP message",
-                        style: TextStyle(
-                          fontSize: 18,
-                          decoration: TextDecoration.none,
-                          color: Colors.blueAccent,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      onPressed: (){
-                        // Action when clicking
-                      },
-                    ),
-
-
-                  ],
+      backgroundColor: const Color(0xFF0F0E19), // Dark background color
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 21),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Logo and title
+              const SizedBox(height: 20),
+              Image.asset('assets/images/logo.png', height: 60),
+              // Replace with your logo path
+              // SizedBox(height: Get.height / 12),
+              const SizedBox(height: 40),
+              Center(
+                child: CircleAvatar(
+                  radius: Get.width / 8,
+                  child: const Icon(
+                    Icons.verified_user_rounded,
+                    size: 60,
+                  ),
                 ),
-              );
-            },
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Good morning!',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Text(
+                'Nguyen Duc Cong',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                "We've sent unique OTP to 628 3940 2001\nto confirm your real identity now",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white70,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // OTP input fields (using a Row with dummy values)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(6, (index) {
+                  return Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white10,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '8', // Placeholder for OTP digits
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(height: 10),
+
+              // Resend OTP link
+              TextButton(
+                onPressed: () {
+                  // Resend OTP logic here
+                },
+                child: const Text(
+                  'Resend OTP Code',
+                  style: TextStyle(
+                    color: Colors.blueAccent,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Verify Button
+              ElevatedButton(
+                onPressed: () {
+                  // Verify OTP logic here
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF3B3B98), // Button color
+                  padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  'Verify Now',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-
-
-

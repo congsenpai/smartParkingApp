@@ -199,16 +199,7 @@ class _WelcomeScreens1State extends State<WelcomeScreens1> {
                       isValidPhoneNumber
                           ? ElevatedButton(
                               onPressed: () {
-                                // triggered event when clicking
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OTPVerifyScreen(
-                                      phoneNumber: phoneNumber,
-                                      verificationId: '',
-                                    ),
-                                  ),
-                                );
+
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF4040FD),
