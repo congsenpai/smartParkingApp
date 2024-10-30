@@ -52,7 +52,7 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               // Ảnh con
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -65,7 +65,7 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
                         });
                       },
                       child: Container(
-                        margin: EdgeInsets.only(right: 8),
+                        margin: const EdgeInsets.only(right: 8),
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
                   }).toList(),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Widget chi tiết thông tin
               buildParkingDetails(),
             ],
@@ -102,17 +102,17 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Tên địa điểm và đánh giá
-        Text(
+        const Text(
           "Angga Big Park",
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        StartWidget(startNumber: 4),
-        SizedBox(height: 8),
+        const StartWidget(startNumber: 4),
+        const SizedBox(height: 8),
         // Khoảng cách và giá
-        Row(
+        const Row(
           children: [
             Icon(Icons.location_on, size: 16, color: Colors.grey),
             SizedBox(width: 4),
@@ -123,23 +123,23 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
             Text("\$5/hr"),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         // Mô tả
-        Text(
+        const Text(
           "Description",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 4),
-        Text(
+        const SizedBox(height: 4),
+        const Text(
           "If you need a huge mall with best facilities where family and kids are happier than before.",
           style: TextStyle(color: Colors.grey),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         // Các tiện ích
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Column(
@@ -162,30 +162,30 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         // Bản đồ
-        Text(
+        const Text(
           "Location",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Container(
           height: 200,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: Colors.grey[300],
           ),
-          child: Center(
+          child: const Center(
             child: Text(
               "Open Maps",
               style: TextStyle(color: Colors.blue),
             ),
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         // Nút Explore
         SizedBox(
           width: double.infinity,
@@ -197,7 +197,8 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Text("Explore Parking Spots", style: TextStyle(
+            child: const Text("Explore Parking Spots", style: TextStyle(
+              color: Colors.black
 
             ),),
           ),
@@ -234,8 +235,8 @@ class _StartWidgetState extends State<StartWidget> {
             color: Colors.orange,
             size: 16,
           ),
-        SizedBox(width: 8),
-        Text("(14,593)"),
+        const SizedBox(width: 8),
+        const Text("(14,593)"),
       ],
     );
   }
