@@ -9,6 +9,7 @@ import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
 void main() {
   runApp(const MyApp());
 }
+
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -25,8 +26,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
-
-
-
