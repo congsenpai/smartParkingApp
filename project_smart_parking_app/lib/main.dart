@@ -7,7 +7,7 @@ import 'package:project_smart_parking_app/screens/home_screen.dart';
 import 'package:project_smart_parking_app/screens/loginScreen/otp_verify_screen.dart';
 import 'package:project_smart_parking_app/screens/loginScreen/test_otp.dart';
 import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
-import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
+// import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
