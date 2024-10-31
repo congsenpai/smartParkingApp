@@ -17,31 +17,44 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
 
   // Gửi OTP đến số điện thoại
   void _sendOTP() async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: _phoneController.text,
-      timeout: const Duration(seconds: 60),
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await _auth.signInWithCredential(credential);
-        print('Số điện thoại đã xác thực tự động và người dùng đã đăng nhập');
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        print('Xác thực thất bại: ${e.message}');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Lỗi xác thực: ${e.message}'),
-        ));
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        setState(() {
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: _phoneController.text,
+        timeout: const Duration(seconds: 60),
+        // xác thực người dùng mà ko cần OTP do đ đăng nhập trước đó
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await _auth.signInWithCredential(credential);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Số điện thoại đã xác thực tự động và người dùng đã đăng nhập'),
+          )
+          );
+          },
+        verificationFailed: (FirebaseAuthException e) {
+          print('Xác thực thất bại: ${e.message}');
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Lỗi xác thực: ${e.message}'),
+          ));
+          },
+        codeSent: (String verificationId, int? resendToken) {
+          setState(() {
+            _verificationId = verificationId;
+            _otpSent = true;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Đã gửi mã OTP đến sdt: ${_phoneController.text}'),
+          ));
+          },
+        codeAutoRetrievalTimeout: (String verificationId) {
           _verificationId = verificationId;
-          _otpSent = true; // Đã gửi OTP
-        });
-        print('Đã gửi mã OTP');
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        _verificationId = verificationId;
-      },
-    );
-  }
+          },
+      );
+    }
+    catch (e) {
+      print('Lỗi khi gửi OTP: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Lỗi khi gửi OTP: $e'),
+      ));
+    }}
 
   // Xác thực OTP
   void _verifyOTP() async {
