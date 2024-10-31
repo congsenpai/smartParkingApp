@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_smart_parking_app/utils/LoginWithOTP.dart';
 
 class PhoneLoginScreen extends StatefulWidget {
   const PhoneLoginScreen({super.key});
@@ -9,71 +9,20 @@ class PhoneLoginScreen extends StatefulWidget {
 }
 
 class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final LoginWithOTP _authService = LoginWithOTP();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _otpController = TextEditingController();
-  String _verificationId = '';
   bool _otpSent = false;
 
-  // Gửi OTP đến số điện thoại
-  void _sendOTP() async {
-    try {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: _phoneController.text,
-        timeout: const Duration(seconds: 60),
-        // xác thực người dùng mà ko cần OTP do đ đăng nhập trước đó
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await _auth.signInWithCredential(credential);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Số điện thoại đã xác thực tự động và người dùng đã đăng nhập'),
-          )
-          );
-          },
-        verificationFailed: (FirebaseAuthException e) {
-          print('Xác thực thất bại: ${e.message}');
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Lỗi xác thực: ${e.message}'),
-          ));
-          },
-        codeSent: (String verificationId, int? resendToken) {
-          setState(() {
-            _verificationId = verificationId;
-            _otpSent = true;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Đã gửi mã OTP đến sdt: ${_phoneController.text}'),
-          ));
-          },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          _verificationId = verificationId;
-          },
-      );
-    }
-    catch (e) {
-      print('Lỗi khi gửi OTP: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Lỗi khi gửi OTP: $e'),
-      ));
-    }}
+  void _sendOtp() async {
+    await _authService.sendOtp(_phoneController.text);
+    setState(() {
+      _otpSent = true;
+    });
+  }
 
-  // Xác thực OTP
-  void _verifyOTP() async {
-    try {
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: _verificationId,
-        smsCode: _otpController.text,
-      );
-      await _auth.signInWithCredential(credential);
-      print('Người dùng đã đăng nhập thành công!');
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Đăng nhập thành công!'),
-      ));
-    } catch (e) {
-      print('Lỗi khi xác thực OTP: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Lỗi xác thực OTP: $e'),
-      ));
-    }
+  void _verifyOtp() async {
+    await _authService.verifyOtp(_otpController.text);
   }
 
   @override
@@ -94,7 +43,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 10),
-            if (_otpSent) // Hiển thị ô nhập OTP nếu đã gửi mã
+            if (_otpSent)
               TextField(
                 controller: _otpController,
                 decoration: const InputDecoration(
@@ -105,7 +54,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: _otpSent ? _verifyOTP : _sendOTP,
+              onPressed: _otpSent ? _verifyOtp : _sendOtp,
               child: Text(_otpSent ? 'Xác thực OTP' : 'Gửi mã OTP'),
             ),
           ],
