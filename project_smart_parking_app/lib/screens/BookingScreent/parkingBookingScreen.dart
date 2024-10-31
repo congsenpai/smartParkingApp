@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ParkingScreen extends StatefulWidget {
-  const ParkingScreen({super.key});
+class ParkingBookingScreen extends StatefulWidget {
+  const ParkingBookingScreen({super.key});
 
   @override
-  State<ParkingScreen> createState() => _ParkingScreenState();
+  State<ParkingBookingScreen> createState() => _ParkingBookingScreenState();
 }
 
-class _ParkingScreenState extends State<ParkingScreen> {
+class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
   String selectedFloor = 'Car';
   String lostSlotCar = ''; // Lưu vị trí đã chọn
   String lostSlotMoto = '';
