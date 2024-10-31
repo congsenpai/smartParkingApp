@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_smart_parking_app/utils/MainModel.dart';
+
+import '../../Language/language.dart';
 
 class MainOrderScreen extends StatefulWidget {
   const MainOrderScreen({super.key});
@@ -10,10 +13,14 @@ class MainOrderScreen extends StatefulWidget {
 }
 
 class _MainOrderScreenState extends State<MainOrderScreen> {
+  final Model = MainModeLight();
+  final String Language = 'vi';
   bool _showSearchBox = false; // Biến để xác định có hiển thị ô tìm kiếm hay không
   TextEditingController _search = TextEditingController();
   List<String> orders = ['Order #1', 'Order #2', 'Order #3'];
   List<String> filteredOrders = [];
+
+  LanguageSelector languageSelector = LanguageSelector();
 
   @override
   void initState() {
@@ -51,7 +58,7 @@ class _MainOrderScreenState extends State<MainOrderScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "My Orders",
+                  languageSelector.translate('MyOrders', Language),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: Get.width / 16,
@@ -88,8 +95,8 @@ class _MainOrderScreenState extends State<MainOrderScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
                   controller: _search,
-                  decoration: const InputDecoration(
-                    labelText: 'Tìm kiếm...',
+                  decoration: InputDecoration(
+                    labelText: ('${languageSelector.translate('Loading...', '$Language')}'),
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.search),
                   ),
@@ -106,7 +113,51 @@ class _MainOrderScreenState extends State<MainOrderScreen> {
                     subtitle: Text('Chi tiết $order'),
                   );
                 }).toList()
-                    : [Text('Không có đơn hàng nào được tìm thấy.')], // Thông báo khi không có kết quả
+                    : [Padding(
+                      padding:  EdgeInsets.all(Get.width/20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: Get.width/2,
+                          ),
+                          Image.asset("assets/images/OrderImage/whitebackground.png", width: Get.width/2,),
+                          SizedBox(
+                            height: Get.width/20,
+                          ),
+
+                          Center(
+                              child: Text('${languageSelector.translate('Do not any order', '$Language')}',
+                                style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: Get.width/25,
+                              ),
+                              )
+                          ),
+                          SizedBox(
+                            height: Get.width/20,
+                          ),
+                          ElevatedButton(
+                              onPressed: (){},
+                            style: ElevatedButton.styleFrom(
+                                elevation: 0, // Xóa bóng
+                                shadowColor: Model.buttonColor, // Xóa màu bóng
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8), // Góc bo tròn (tùy chọn)
+                                  side: BorderSide(color: Model.buttonColor), // Viền trong suốt
+                                ),),
+                              child: Text("${languageSelector.translate('Booking Now', '$Language')}",style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Get.width/25,
+                                color: Model.textColor
+                          ),
+                          )
+                          )
+
+                        ],
+                      ),
+                    )], // Thông báo khi không có kết quả
               ),
             ),
           ],

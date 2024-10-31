@@ -73,6 +73,7 @@ flutter:
     - assets/images/
     - assets/images/Location1_HVNH/
     - assets/images/detail/
+    - assets/images/OrderImage/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
