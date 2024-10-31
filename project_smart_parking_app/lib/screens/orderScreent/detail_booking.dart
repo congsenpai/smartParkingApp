@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:project_smart_parking_app/screens/booking_parking_screen.dart';
+import 'package:project_smart_parking_app/screens/orderScreent/parkingSpotScreen.dart';
 
 class DetailBooking extends StatefulWidget {
 
@@ -116,7 +116,7 @@ class _DetailBookingState extends State<DetailBooking> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                   fontSize: Get.width/25)                              ),
-                              const StartWidget(startNumber: 4),
+                              const StartWidget(startNumber: 4,evaluateNumber: 12000,),
                             ],
                           ),
                         )

@@ -1,12 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_smart_parking_app/screens/booking_parking_screen.dart';
-import 'package:project_smart_parking_app/screens/detail_booking.dart';
+import 'package:project_smart_parking_app/screens/orderScreent/parkingSpotScreen.dart';
+import 'package:project_smart_parking_app/screens/orderScreent/detail_booking.dart';
 import 'package:project_smart_parking_app/screens/home_screen.dart';
-import 'package:project_smart_parking_app/screens/loginScreen/otp_verify_screen.dart';
-import 'package:project_smart_parking_app/screens/loginScreen/test_otp.dart';
-import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
+import 'package:project_smart_parking_app/screens/orderScreent/parking_order_screen.dart';
 // import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
 
 void main() async {
@@ -34,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OtpScreen(),
+      home: ParkingScreen(),
     );
   }
 }

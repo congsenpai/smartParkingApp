@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DetailParkingScreen extends StatefulWidget {
-  const DetailParkingScreen({super.key});
+class ParkingSpotScreen extends StatefulWidget {
+  const ParkingSpotScreen({super.key});
 
   @override
-  State<DetailParkingScreen> createState() => _DetailParkingScreenState();
+  State<ParkingSpotScreen> createState() => _ParkingSpotScreenState();
 }
 
-class _DetailParkingScreenState extends State<DetailParkingScreen> {
+class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
   String _currentImagePath = "assets/images/Location1_HVNH/HvnhMain.png";
-
   final List<String> _imagePaths = [
     "assets/images/Location1_HVNH/HvnhMain.png",
     "assets/images/AnhAppbar.png",
@@ -109,7 +108,7 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const StartWidget(startNumber: 4),
+        const StartWidget(startNumber: 4, evaluateNumber: 1200,),
         const SizedBox(height: 8),
         // Khoảng cách và giá
         const Row(
@@ -208,17 +207,18 @@ class _DetailParkingScreenState extends State<DetailParkingScreen> {
   }
 }
 
-
-
 class StartWidget extends StatefulWidget {
   final int startNumber;
+  final int evaluateNumber;
 
   const StartWidget({
     super.key,
     required this.startNumber,
+    required this.evaluateNumber,
   });
 
   int get a => startNumber;
+  int get b => evaluateNumber;
 
   @override
   State<StartWidget> createState() => _StartWidgetState();
@@ -236,7 +236,7 @@ class _StartWidgetState extends State<StartWidget> {
             size: 16,
           ),
         const SizedBox(width: 8),
-        const Text("(14,593)"),
+        Text('${widget.b}'), // Hiển thị evaluateNumber
       ],
     );
   }
