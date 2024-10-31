@@ -1,10 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_smart_parking_app/screens/booking_parking_screen.dart';
-import 'package:project_smart_parking_app/screens/detail_booking.dart';
-import 'package:project_smart_parking_app/screens/home_screen.dart';
-import 'package:project_smart_parking_app/screens/loginScreen/otp_verify_screen.dart';
 import 'package:project_smart_parking_app/screens/loginScreen/test_otp.dart';
 import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
 // import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';

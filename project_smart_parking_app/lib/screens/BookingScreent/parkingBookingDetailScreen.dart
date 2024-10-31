@@ -2,18 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:project_smart_parking_app/screens/booking_parking_screen.dart';
+import 'package:project_smart_parking_app/screens/BookingScreent/parkingSpotScreen.dart';
 
-class DetailBooking extends StatefulWidget {
+import '../../widgets/Startwidget.dart';
 
 
-  const DetailBooking({super.key});
+class ParkingBookingDetailScreen extends StatefulWidget {
+
+
+  const ParkingBookingDetailScreen({super.key});
 
   @override
-  State<DetailBooking> createState() => _DetailBookingState();
+  State<ParkingBookingDetailScreen> createState() => _ParkingBookingDetailScreenState();
 }
 
-class _DetailBookingState extends State<DetailBooking> {
+class _ParkingBookingDetailScreenState extends State<ParkingBookingDetailScreen> {
   final double PriceOf1hourCar = 20000;
   final double PriceOf1hourMoto = 20000;
   double Total =0;
@@ -116,7 +119,7 @@ class _DetailBookingState extends State<DetailBooking> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                   fontSize: Get.width/25)                              ),
-                              const StartWidget(startNumber: 4),
+                              const StartWidget(startNumber: 4,evaluateNumber: 12000,),
                             ],
                           ),
                         )
