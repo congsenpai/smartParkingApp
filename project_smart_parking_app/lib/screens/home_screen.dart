@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_smart_parking_app/controllers/HomeController.dart';
+
+import '../models/ParkingSpotsModel.dart';
 
 class HomeScreen extends StatefulWidget {
+  final String documentId;
+  const HomeScreen({Key? key, required this.documentId}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -9,10 +15,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // Tạo một TextEditingController để kiểm soát TextField
   TextEditingController _searchController = TextEditingController();
-
+  ParkingSpotModel? parkingSpot;
   @override
   void initState() {
     super.initState();
+    getDataSpotsParking();
 
     // Lắng nghe sự thay đổi từ TextField
     _searchController.addListener(() {
@@ -21,11 +28,19 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> getDataSpotsParking() async{
+    FirestoreService firestoreService = FirestoreService();
+    ParkingSpotModel? spot = await firestoreService.getParkingSpot(widget.documentId);
+    setState(() {
+      parkingSpot = spot;
+    });
+  }
+
   @override
   void dispose() {
     // Hủy controller khi không còn cần thiết
     _searchController.dispose();
-    super.dispose();
+    // super.dispose();
   }
 
   @override
@@ -156,9 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: SafeArea(
-
-
+      body: parkingSpot == null ? const Center(child: CircularProgressIndicator())
+      : SafeArea(
         child: SingleChildScrollView(
 
 
@@ -277,9 +291,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 alignment: Alignment.center, // Căn trái
                                                 child: RichText(
                                                   text: TextSpan(
-                                                    text: "Angga Park", // Dòng đầu tiên
+                                                    text: "${parkingSpot!.spotName}", // Dòng đầu tiên
                                                     style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: Get.width/25,
                                                       fontWeight: FontWeight.bold,
                                                       color: Colors.black,
                                                       shadows: [
@@ -317,14 +331,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ),
                                                     SizedBox(width: Get.width/10), // Khoảng cách giữa hai hàng
                                                     // Đoạn văn bản và icon thứ hai
-                                                    const Row(
+                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Icon(Icons.monetization_on_outlined, color: Colors.black,),
                                                         SizedBox(width: 5), // Thêm khoảng cách giữa Icon và Text
                                                         Text(
-                                                          "5/hr",
+                                                          "${parkingSpot!.costPerHourMoto}",
                                                           textAlign: TextAlign.left,
                                                         ),
                                                       ],
@@ -610,6 +624,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 class InProgressParking extends StatefulWidget {
+
   final String url;
   final String placeName;
   final String location;

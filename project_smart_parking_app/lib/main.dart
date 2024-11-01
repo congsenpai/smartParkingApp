@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_smart_parking_app/screens/home_screen.dart';
 import 'package:project_smart_parking_app/screens/loginScreen/test_otp.dart';
 import 'package:project_smart_parking_app/screens/orderScreen/MainOrderScreen.dart';
 
 import 'Language/language.dart';
+import 'controllers/HomeController.dart';
 // import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
 // import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
 
@@ -34,7 +36,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainOrderScreen(),
+      home: HomeScreen(documentId: 'SpotsID1',),
     );
   }
 }

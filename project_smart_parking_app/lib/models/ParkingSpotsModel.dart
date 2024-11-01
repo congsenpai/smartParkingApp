@@ -6,11 +6,13 @@ class ParkingSpotModel {
   final String costPerHourMoto;
   final String spotName;
   final List<String> listImage;
-  final GeoPoint location;
-  final bool isOccupied;
-  final String? evaluateNumber;
-  final String? reservedBy;
+  final String location;
+  final int OccupiedMaxCar;
+  final int OccupiedMaxMotor;
+
+  final String? describe;
   final int? star;
+  final int? reviewsNumber;
 
   ParkingSpotModel({
     required this.spotId,
@@ -19,10 +21,13 @@ class ParkingSpotModel {
     required this.spotName,
     required this.listImage,
     required this.location,
-    required this.isOccupied,
+    required this.OccupiedMaxCar,
+    required this.OccupiedMaxMotor,
     required this.star,
-    required this.reservedBy,
-    required this.evaluateNumber,
+    required this.describe,
+    required this.reviewsNumber,
+
+
   });
 
   // Phương thức này chuyển đổi đối tượng ParkingSpotModel thành Map<String, dynamic>
@@ -32,12 +37,13 @@ class ParkingSpotModel {
       'spotName': spotName,
       'listImage': listImage,
       'location': location,
-      'isOccupied': isOccupied,
-      'reservedBy': reservedBy,
+      'OccupiedMaxCar': OccupiedMaxCar,
+      'OccupiedMaxMotor': OccupiedMaxMotor,
       'costPerHourMoto': costPerHourMoto,
       'costPerHourCar': costPerHourCar,
-      'evaluateNumber': evaluateNumber,
+      'describe': describe,
       'star': star,
+      'reviewsNumber': reviewsNumber,
     };
   }
 
@@ -48,12 +54,15 @@ class ParkingSpotModel {
       spotName: json['spotName'],
       listImage: List<String>.from(json['listImage']),
       location: json['location'],
-      isOccupied: json['isOccupied'],
-      reservedBy: json['reservedBy'],
+      OccupiedMaxCar: json['OccupiedMaxCar'],
+      OccupiedMaxMotor : json['OccupiedMaxMotor'],
+      describe: json['describe'],
+
       costPerHourMoto: json['costPerHourMoto'],
       costPerHourCar: json['costPerHourCar'],
-      evaluateNumber: json['evaluateNumber'],
+
       star: json['star'],
+      reviewsNumber: json['reviewsNumber']
     );
   }
 }
