@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import 'otp_verify_screen.dart';
+import 'OtpScreen.dart';
 
 class SmartParkingApp extends StatelessWidget {
   const SmartParkingApp({super.key});
@@ -45,11 +45,13 @@ class WelcomeScreen extends StatelessWidget {
             ),
             const Spacer(),
             const Text(
-              'Get Your\nSecure Park',
+              'Get Your\n    Secure Park',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 34,
                 fontWeight: FontWeight.bold,
+                decoration: TextDecoration.none,
+                fontFamily: 'Roboto',
               ),
             ),
             const SizedBox(height: 10),
@@ -58,6 +60,7 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white60,
                 fontSize: 16,
+                decoration: TextDecoration.none,
               ),
             ),
             const SizedBox(height: 30),
@@ -146,6 +149,7 @@ class _WelcomeScreens1State extends State<WelcomeScreens1> {
                         child: Text(
                           "Verify Account",
                           style: TextStyle(
+                            fontFamily: 'Roboto',
                             fontSize: 35,
                             decoration: TextDecoration.none,
                             color: Colors.white,
@@ -160,9 +164,10 @@ class _WelcomeScreens1State extends State<WelcomeScreens1> {
                           child: Text(
                             "We will send the OTP message to your phone number and verify your account right now",
                             style: TextStyle(
+                              fontFamily: 'Roboto',
                               fontSize: 18,
                               decoration: TextDecoration.none,
-                              color: Colors.white70,
+                              color: Colors.white30,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -184,11 +189,11 @@ class _WelcomeScreens1State extends State<WelcomeScreens1> {
                           color: Colors.white,
                         ),
                         validator: (phone) {
-                          if (phone == null || phone.number.length != 10) {
+                          if (phone == null || phone.number.length != 11) {
                             return 'Input is not a valid phone number';
                           } else {
                             setState(() {
-                              phoneNumber = phone.completeNumber;
+                              phoneNumber = '+${phone.number}';
                               isValidPhoneNumber = true;
                             });
                             return null;
@@ -199,7 +204,11 @@ class _WelcomeScreens1State extends State<WelcomeScreens1> {
                       isValidPhoneNumber
                           ? ElevatedButton(
                               onPressed: () {
-
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => OtpScreen(
+                                            phoneNumber: phoneNumber)));
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF4040FD),

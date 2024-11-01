@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_smart_parking_app/screens/home_screen.dart';
 import 'package:project_smart_parking_app/screens/loginScreen/test_otp.dart';
+import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
 import 'package:project_smart_parking_app/screens/orderScreen/MainOrderScreen.dart';
-
 import 'Language/language.dart';
 import 'controllers/HomeController.dart';
 // import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
