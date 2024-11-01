@@ -6,7 +6,13 @@ class EnglishLanguage {
     'Payment': 'Payment',
     'Do not any order':'Do not any order',
     'Booking Now':'Booking Now',
-    'Finding...':'Tìm kiếm...'
+    'Finding...':'Finding...',
+    'VND/hr':'VND/hr',
+    'Description':'Description',
+    'AI Secure':'AI Secure',
+    'Electrics':'Electrics System',
+    'Toilets': 'Toilets System'
+
     // Thêm từ khóa tiếng Anh khác tại đây
   };
 }
@@ -19,7 +25,14 @@ class VietnameseLanguage {
     'Payment': 'Thanh toán',
     'Do not any order':'Không có đơn hàng nào được tìm thấy.',
     'Booking Now':'Đặt chỗ ngay',
-    'Finding...':'Tìm kiếm...'
+    'Finding...':'Tìm kiếm...',
+    'VND/hr':'VND/giờ',
+    'Description':'Mô tả',
+    'AI Secure':'Nhận dạng AI',
+    'Electrics':'Hệ thống điện',
+    'Toilets': 'Hệ thống vệ sinh'
+
+
 
     // Thêm từ khóa tiếng Việt khác tại đây
   };

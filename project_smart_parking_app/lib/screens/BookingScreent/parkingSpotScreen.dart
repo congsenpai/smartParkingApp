@@ -1,23 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../Language/language.dart';
+import '../../controllers/HomeController.dart';
+import '../../models/ParkingSpotsModel.dart';
 import '../../widgets/Startwidget.dart';
 
 class ParkingSpotScreen extends StatefulWidget {
-  const ParkingSpotScreen({super.key});
+  final String documentId;
+
+
+  const ParkingSpotScreen({Key? key, required this.documentId}) : super(key: key);
 
   @override
   State<ParkingSpotScreen> createState() => _ParkingSpotScreenState();
 }
 
 class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
-  String _currentImagePath = "assets/images/Location1_HVNH/HvnhMain.png";
-  final List<String> _imagePaths = [
-    "assets/images/Location1_HVNH/HvnhMain.png",
-    "assets/images/AnhAppbar.png",
-    "assets/images/Location1_HVNH/HvnhMain.png",
-    "assets/images/Location1_HVNH/HvnhMain.png",
-  ];
+  final String Language = 'vi';
+  LanguageSelector languageSelector = LanguageSelector();
+  ParkingSpotModel? parkingSpot;
+  String _currentImagePath = '';
+  List<String> _imagePaths = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchParkingSpot();
+  }
+
+  Future<void> fetchParkingSpot() async {
+    FirestoreService firestoreService = FirestoreService();
+    ParkingSpotModel? spot = await firestoreService.getParkingSpot(widget.documentId);
+    setState(() {
+      parkingSpot = spot;
+      if (parkingSpot != null && parkingSpot!.listImage.isNotEmpty) {
+        _currentImagePath = parkingSpot!.listImage[0];
+        _imagePaths = parkingSpot!.listImage;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +58,9 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: parkingSpot == null
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
@@ -102,18 +126,16 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Tên địa điểm và đánh giá
-        const Text(
-          "Angga Big Park",
+         Text(
+          parkingSpot!.spotName,
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const StartWidget(startNumber: 4, evaluateNumber: 1200,),
+        const StartWidget(startNumber: 4, evaluateNumber: 1200),
         const SizedBox(height: 8),
-        // Khoảng cách và giá
-        const Row(
+         Row(
           children: [
             Icon(Icons.location_on, size: 16, color: Colors.grey),
             SizedBox(width: 4),
@@ -121,50 +143,50 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
             SizedBox(width: 16),
             Icon(Icons.attach_money, size: 16, color: Colors.grey),
             SizedBox(width: 4),
-            Text("\$5/hr"),
+            Text(
+              '${parkingSpot!.costPerHourMoto} ${languageSelector.translate('VND/hr', Language)}'
+            ),
           ],
         ),
         const SizedBox(height: 16),
-        // Mô tả
-        const Text(
-          "Description",
-          style: TextStyle(
+        Text(
+          languageSelector.translate('Description', Language),
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 4),
-        const Text(
-          "If you need a huge mall with best facilities where family and kids are happier than before.",
+         Text(
+           '${parkingSpot!.describe}',
+
           style: TextStyle(color: Colors.grey),
         ),
         const SizedBox(height: 16),
-        // Các tiện ích
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Column(
               children: [
                 Icon(Icons.security, color: Colors.blue),
-                Text("AI Secure"),
+                Text(languageSelector.translate('AI Secure', Language)),
               ],
             ),
             Column(
               children: [
                 Icon(Icons.electrical_services, color: Colors.blue),
-                Text("Electrics"),
+                Text(languageSelector.translate('Electrics', Language)),
               ],
             ),
             Column(
               children: [
                 Icon(Icons.wc, color: Colors.blue),
-                Text("Toilets"),
+                Text(languageSelector.translate('Toilets', Language)),
               ],
             ),
           ],
         ),
         const SizedBox(height: 16),
-        // Bản đồ
         const Text(
           "Location",
           style: TextStyle(
@@ -187,7 +209,6 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
           ),
         ),
         const SizedBox(height: 16),
-        // Nút Explore
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -198,16 +219,10 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text("Explore Parking Spots", style: TextStyle(
-              color: Colors.black
-
-            ),),
+            child: const Text("Explore Parking Spots", style: TextStyle(color: Colors.black)),
           ),
         ),
       ],
     );
   }
 }
-
-
-

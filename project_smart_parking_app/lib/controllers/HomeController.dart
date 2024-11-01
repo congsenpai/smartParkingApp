@@ -87,6 +87,7 @@ class _ParkingSpotScreentestState extends State<ParkingSpotScreentest> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Spot Name: ${parkingSpot!.spotName}"),
+            Text("id : ${parkingSpot!.spotId}"),
             Text("Cost per Hour for Car: ${parkingSpot!.costPerHourCar}"),
             Text("Cost per Hour for Moto: ${parkingSpot!.costPerHourMoto}"),
             Text("Location: ${parkingSpot!.location}"),

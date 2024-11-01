@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_smart_parking_app/controllers/HomeController.dart';
+import 'package:project_smart_parking_app/screens/BookingScreent/parkingBookingScreen.dart';
+import 'package:project_smart_parking_app/screens/BookingScreent/parkingSpotScreen.dart';
 
 import '../models/ParkingSpotsModel.dart';
 
@@ -247,6 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       parkingSpots.length,
                           (index) {
                         var spot = parkingSpots[index];
+                        print(spot.spotId);
                         return Container(
                           margin: EdgeInsets.symmetric(horizontal: Get.width / 40),
                           child: Column(
@@ -257,12 +260,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   backgroundColor: Colors.white,
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding:  EdgeInsets.all(5.0),
                                 ),
-                                onPressed: () {
-                                  
 
-                                },
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ParkingSpotScreen(documentId: '${spot.spotId}'), // Thay `YourNewPage` bằng tên của trang bạn muốn điều hướng đến
+                                      ),
+                                    );
+                                  },
+
+
                                 child: Column(
                                   children: [
                                     Container(
