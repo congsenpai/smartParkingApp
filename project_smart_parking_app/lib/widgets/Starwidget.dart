@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class StartWidget extends StatefulWidget {
+class StarWidget extends StatefulWidget {
   final int startNumber;
   final int evaluateNumber;
 
-  const StartWidget({
+  const StarWidget({
     super.key,
     required this.startNumber,
     required this.evaluateNumber,
@@ -14,10 +14,10 @@ class StartWidget extends StatefulWidget {
   int get b => evaluateNumber;
 
   @override
-  State<StartWidget> createState() => _StartWidgetState();
+  State<StarWidget> createState() => _StarWidgetState();
 }
 
-class _StartWidgetState extends State<StartWidget> {
+class _StarWidgetState extends State<StarWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ParkingSpotModel {
   final String spotId;
-  final String costPerHourCar;
-  final String costPerHourMoto;
+  final int costPerHourCar;
+  final int costPerHourMoto;
   final String spotName;
   final List<String> listImage;
   final String location;

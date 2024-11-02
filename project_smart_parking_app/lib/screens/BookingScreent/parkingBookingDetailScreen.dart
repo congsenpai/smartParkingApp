@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:project_smart_parking_app/screens/BookingScreent/parkingSpotScreen.dart';
 
-import '../../widgets/Startwidget.dart';
+import '../../widgets/Starwidget.dart';
 
 
 class ParkingBookingDetailScreen extends StatefulWidget {
@@ -119,7 +119,7 @@ class _ParkingBookingDetailScreenState extends State<ParkingBookingDetailScreen>
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                   fontSize: Get.width/25)                              ),
-                              const StartWidget(startNumber: 4,evaluateNumber: 12000,),
+                              const StarWidget(startNumber: 4,evaluateNumber: 12000,),
                             ],
                           ),
                         )

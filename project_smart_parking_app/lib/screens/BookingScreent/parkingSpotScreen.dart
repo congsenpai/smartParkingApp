@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../Language/language.dart';
-import '../../controllers/HomeController.dart';
+import '../../controllers/SpotsController.dart';
 import '../../models/ParkingSpotsModel.dart';
-import '../../widgets/Startwidget.dart';
+import '../../widgets/Starwidget.dart';
 
 class ParkingSpotScreen extends StatefulWidget {
   final String documentId;
@@ -18,6 +18,9 @@ class ParkingSpotScreen extends StatefulWidget {
 
 class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
   final String Language = 'vi';
+  int _star = 4;
+  int _reviewNumber = 1200;
+
   LanguageSelector languageSelector = LanguageSelector();
   ParkingSpotModel? parkingSpot;
   String _currentImagePath = '';
@@ -37,7 +40,10 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
       if (parkingSpot != null && parkingSpot!.listImage.isNotEmpty) {
         _currentImagePath = parkingSpot!.listImage[0];
         _imagePaths = parkingSpot!.listImage;
+
       }
+      _star = parkingSpot!.star!;
+      _reviewNumber = parkingSpot!.reviewsNumber!;
     });
   }
 
@@ -133,7 +139,7 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const StartWidget(startNumber: 4, evaluateNumber: 1200),
+        StarWidget(startNumber: _star, evaluateNumber: _reviewNumber),
         const SizedBox(height: 8),
          Row(
           children: [
@@ -219,7 +225,7 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text("Explore Parking Spots", style: TextStyle(color: Colors.black)),
+            child: const Text("Explore Parking Spots", style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal)),
           ),
         ),
       ],

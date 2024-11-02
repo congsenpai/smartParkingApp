@@ -7,7 +7,7 @@ import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.da
 import 'package:project_smart_parking_app/screens/orderScreen/MainOrderScreen.dart';
 import 'package:project_smart_parking_app/widgets/MapGGWidget.dart';
 import 'Language/language.dart';
-import 'controllers/HomeController.dart';
+import 'controllers/SpotsController.dart';
 // import 'package:project_smart_parking_app/screens/parking_order_screen.dart';
 // import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
 
@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: mapgggtest(plusCode: '2R5H+MG Đống Đa, Hà Nội',),
+      home: HomeScreen(),
     );
   }
 }
