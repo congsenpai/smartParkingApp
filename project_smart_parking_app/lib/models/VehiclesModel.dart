@@ -1,6 +1,6 @@
 class VehiclesModel {
   final String vehicleId;
-  final String uId;
+  final String userId;
   final bool vehicleType; // 0 xe máy, 1 ô tô
   final String licensePlate;
   final String userImg;
@@ -8,7 +8,7 @@ class VehiclesModel {
 
   VehiclesModel({
     required this.vehicleId,
-    required this.uId,
+    required this.userId,
     required this.vehicleType,
     required this.licensePlate,
     required this.userImg,
@@ -19,7 +19,7 @@ class VehiclesModel {
   Map<String, dynamic> toMap() {
     return {
       'vehicleId': vehicleId,
-      'uId': uId,
+      'uId': userId,
       'vehicleType': vehicleType,
       'licensePlate': licensePlate,
       'userImg': userImg,
@@ -31,7 +31,7 @@ class VehiclesModel {
   factory VehiclesModel.fromJson(Map<String, dynamic> json) {
     return VehiclesModel(
       vehicleId: json['vehicleId'],
-      uId: json['uId'],
+      userId: json['uId'],
       vehicleType: json['vehicleType'],
       licensePlate: json['licensePlate'],
       userImg: json['userImg'],

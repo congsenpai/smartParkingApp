@@ -1,79 +1,132 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/SlotsController.dart';
+import '../../models/ParkingSlotModel.dart';
+
 class ParkingBookingScreen extends StatefulWidget {
-  const ParkingBookingScreen({super.key});
+  final String documentId;
+
+  const ParkingBookingScreen({Key? key, required this.documentId}) : super(key: key);
+
 
   @override
   State<ParkingBookingScreen> createState() => _ParkingBookingScreenState();
 }
 
 class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
+
+  Future<ParkingSlotData?>? _futureSpotSlot;
+
+  @override
+  void initState() {
+    super.initState();
+    // Khởi tạo fetch dữ liệu khi widget được tạo
+    _futureSpotSlot = fetchSpotSlot(widget.documentId);
+  }
+  String ?SpostName ;
+  String ?SpostID;
+
   String selectedFloor = 'Car';
   String lostSlotCar = ''; // Lưu vị trí đã chọn
   String lostSlotMoto = '';
-  int CarOfMoto =1;
+  int CarOfMoto = 1;
 
-  // Danh sách các vị trí đã có xe
-  final List<String> occupiedSlotsCar = ['A1', 'A2', 'B1', 'B4'];
-  final List<String> occupiedSlotsMoto = ['A1', 'A2', 'B1', 'B4'];
+// Danh sách các vị trí đã có xe, sẽ cập nhật từ Firestore
+  List<String> occupiedSlotsCar = [];
+  List<String> occupiedSlotsMoto = [];
+  List<String> parkingSectionCar = [];
+  List<String> parkingSectionMoto = [];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Angga Park',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite_border, color: Colors.black),
-            onPressed: (
+    return FutureBuilder<ParkingSlotData?>(
+      future: _futureSpotSlot,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator()); // Hiển thị khi đang tải dữ liệu
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Lỗi khi lấy dữ liệu'));
+        } else if (snapshot.hasData && snapshot.data != null) {
+          ParkingSlotData data = snapshot.data!;
+          SpostName = data.SportName;
+          SpostID= data.SportID;
 
-                ) {},
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Floor Selector
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildFloorButton('Car'),
-                _buildFloorButton('Motor'),
+          // Cập nhật danh sách các vị trí đã chiếm dụng nếu chúng chưa có dữ liệu
+          if (occupiedSlotsCar.isEmpty && occupiedSlotsMoto.isEmpty && parkingSectionMoto.isEmpty && parkingSectionCar.isEmpty) {
+            occupiedSlotsCar = data.occupiedSlotsCar;
+            occupiedSlotsMoto = data.occupiedSlotsMoto;
+            parkingSectionMoto = data.parkingSectionMoto;
+            parkingSectionCar = data.parkingSectionCar;
+
+          }
+
+
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              title:  Text(
+                SpostName!,
+                style: TextStyle(color: Colors.black,
+                fontWeight: FontWeight.bold),
+              ),
+              centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.favorite_border, color: Colors.black),
+                  onPressed: () {},
+                ),
               ],
             ),
-          ),
-          // Parking Lots Section
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: Get.width / 30),
+            body: Column(
               children: [
-                if (selectedFloor == 'Car') ...[
-                  _buildParkingSectionCar('A', ['A1', 'A2', 'A4', 'A5'], occupiedSlotsCar),
-                  _buildParkingSectionCar('B', ['B1', 'B2', 'B4', 'B5'], occupiedSlotsCar),
-                ] else ...[
-                  _buildParkingSectionMoto('A', ['A1', 'A2', 'A4', 'A5'], occupiedSlotsMoto),
-                  _buildParkingSectionMoto('B', ['B1', 'B2', 'B4', 'B5'], occupiedSlotsMoto),
-                ],
+                // Floor Selector
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildFloorButton('Car'),
+                      _buildFloorButton('Motor'),
+                    ],
+                  ),
+                ),
+                // Parking Lots Section
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 30),
+                    children: [
+                      if (selectedFloor == 'Car') ...[
+                        _buildParkingSectionCar(
+                          'Slots',
+                          parkingSectionCar,
+                          occupiedSlotsCar,
+                        ),
+                      ] else ...[
+                        _buildParkingSectionMoto(
+                          'Slots',
+                          parkingSectionMoto,
+                          occupiedSlotsMoto,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
+          );
+        } else {
+          return Center(child: Text('Không có dữ liệu'));
+        }
+      },
     );
   }
+
 
   // Floor button widget
   Widget _buildFloorButton(String floor) {

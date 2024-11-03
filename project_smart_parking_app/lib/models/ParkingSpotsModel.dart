@@ -9,7 +9,6 @@ class ParkingSpotModel {
   final String location;
   final int OccupiedMaxCar;
   final int OccupiedMaxMotor;
-
   final String? describe;
   final int? star;
   final int? reviewsNumber;

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../Language/language.dart';
-import '../../controllers/SpotsController.dart';
+
+import '../../controllers/PakingController.dart';
 import '../../models/ParkingSpotsModel.dart';
 import '../../widgets/Starwidget.dart';
 
