@@ -13,10 +13,11 @@ class EnglishLanguage {
     'Electrics':'Electrics System',
     'Toilets': 'Toilets System',
     'Slots':'Slots',
-    'Paking Slots':'Paking Slots',
+    'Parking Slot':'Paking Slots',
     'Booking Slot':'Booking Slot',
     'Booking Now':'Booking Now',
-    'Cancel': 'Cancel'
+    'Cancel': 'Cancel',
+    'Selected parking slot:':'Selected parking slot:'
 
 
     // Thêm từ khóa tiếng Anh khác tại đây
@@ -38,10 +39,11 @@ class VietnameseLanguage {
     'Electrics':'Hệ thống điện',
     'Toilets': 'Hệ thống vệ sinh',
     'Slots': 'Vị trí',
-    'Paking Slots':'Vị trí đặt xe',
+    'Parking Slot':'Vị trí đặt xe',
     'Booking Slot':'Đặt chỗ',
     'Booking Now' : 'Đặt chỗ ngay',
-    'Cancel':'Đóng'
+    'Cancel':'Đóng',
+     'Selected parking slot:' : 'Vị trí đã chọn: '
 
 
 

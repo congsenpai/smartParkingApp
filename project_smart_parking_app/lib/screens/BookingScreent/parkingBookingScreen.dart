@@ -168,12 +168,12 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
             children: [
               Text(
                 section,
-                style: TextStyle(fontSize: Get.width / 15, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: Get.width / 25, fontWeight: FontWeight.bold),
               ),
               SizedBox(width: Get.width / 30),
               Text(
                 languageSelector.translate('Parking Slot', language),
-                style: TextStyle(color: Colors.grey, fontSize: Get.width / 20),
+                style: TextStyle(color: Colors.grey, fontSize: Get.width / 25),
               ),
               SizedBox(width: Get.width / 30),
               const Icon(Icons.crop, color: Colors.blue, size: 20),
@@ -238,12 +238,12 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
             children: [
               Text(
                 section,
-                style: TextStyle(fontSize: Get.width / 15, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: Get.width / 25, fontWeight: FontWeight.bold),
               ),
               SizedBox(width: Get.width / 30),
               Text(
                 languageSelector.translate('Parking Slot', language),
-                style: TextStyle(color: Colors.grey, fontSize: Get.width / 20),
+                style: TextStyle(color: Colors.grey, fontSize: Get.width / 25),
               ),
               SizedBox(width: Get.width / 30),
               const Icon(Icons.crop, color: Colors.blue, size: 20),
@@ -310,7 +310,7 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
           title: Text(languageSelector.translate('Booking Slot', language)),
 
           content: Text(
-            'Selected parking slot: $slot',
+             '${languageSelector.translate('Selected parking slot:', language)} $slot',
           ),
 
           actions: <Widget>[
@@ -318,7 +318,7 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
               child: Text(languageSelector.translate('Booking Now', language), style: TextStyle(color: Colors.blue)),
               onPressed: () {
                 print('Vị trí đã chọn :$slot !'); // In ra vị trí đã chọn
-                Navigator.of(context).pop(); // Đóng dialog
+                // Navigator.of(context).pop(); // Đóng dialog
               },
             ),
             TextButton(
