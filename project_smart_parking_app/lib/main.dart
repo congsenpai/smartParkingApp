@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ParkingBookingScreen(documentId: 'SpostID1',),
+      home: HomeScreen(),
     );
   }
 }

@@ -7,13 +7,14 @@ class UserModel {
   final String userDeviceToken;
   final String country;
   final String userAddress;
-
   final bool isAdmin;
   final bool isActive;
   final dynamic createdOn;
   final String city;
+  final List<Map<String,String>> vehical;
 
   UserModel({
+    required this.vehical,
     required this.uId,
     required this.username,
     required this.email,
@@ -38,6 +39,7 @@ class UserModel {
   // một bản sao của đối tượng dưới dạng bản đồ.
   Map<String, dynamic> toMap() {
     return {
+
       'uId': uId,
       'username': username,
       'email': email,
@@ -50,7 +52,8 @@ class UserModel {
       'isAdmin': isAdmin,
       'isActive': isActive,
       'createdOn': createdOn,
-      'city': city
+      'city': city,
+      'vehical': vehical
     };
   }
 
@@ -60,6 +63,10 @@ class UserModel {
   // Nó giúp bạn dễ dàng khôi phục một đối tượng từ dữ liệu JSON mà bạn nhận được từ server.
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+        vehical: (json['vehical'] as List<dynamic>?)
+            ?.map((e) => Map<String, String>.from(e as Map))
+            .toList() ??
+            [],
         uId: json['uId'],
         username: json['username'],
         email: json['email'],
