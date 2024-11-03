@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:project_smart_parking_app/screens/BookingScreent/parkingBookingScreen.dart';
 import 'package:project_smart_parking_app/screens/home_screen.dart';
@@ -39,7 +40,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ParkingBookingScreen(documentId: 'SpostID1',),
+      builder:EasyLoading.init(),
+      home: WelcomeScreen()
     );
   }
 }

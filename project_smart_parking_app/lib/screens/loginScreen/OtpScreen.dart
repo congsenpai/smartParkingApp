@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:project_smart_parking_app/utils/LoginWithOTP.dart';
 
@@ -18,16 +19,15 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   final LoginWithOTP _loginWithOTP = LoginWithOTP();
-  bool _otpSent = false;
 
   @override
   void initState() {
     super.initState();
     // Gửi OTP khi trang được khởi tạo
-    _loginWithOTP.sendOtp(widget.phoneNumber).then((_) {
-      setState(() {
-        _otpSent = true; // Đánh dấu rằng mã OTP đã được gửi
-      });
+    _loginWithOTP.sendOtp(widget.phoneNumber).then((_) async {
+      EasyLoading.show(status: 'Sending OTP...');
+      await Future.delayed(const Duration(seconds: 3));
+      EasyLoading.dismiss(); // Ẩn loading
     });
   }
 
@@ -52,7 +52,6 @@ class _OtpScreenState extends State<OtpScreen> {
       print('Lỗi nhập OTP');
     }
   }
-
 
   void _showErrorDialog() {
     showDialog(
@@ -172,7 +171,6 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 }
 
-
 class OTPInputRow extends StatefulWidget {
   final Function(String) onSubmit; // Callback để gửi OTP về widget cha
   OTPInputRow({Key? key, required this.onSubmit}) : super(key: key);
@@ -183,7 +181,8 @@ class OTPInputRow extends StatefulWidget {
 
 class _OTPInputRowState extends State<OTPInputRow> {
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
-  final List<TextEditingController> _controllers = List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> _controllers =
+      List.generate(6, (_) => TextEditingController());
 
   @override
   void dispose() {
