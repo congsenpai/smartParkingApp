@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:project_smart_parking_app/utils/LoginWithOTP.dart';
+import 'package:project_smart_parking_app/utils/login_with_otp.dart';
 
 import '../home_screen.dart';
 

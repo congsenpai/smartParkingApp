@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       builder:EasyLoading.init(),
-      home: WelcomeScreen()
+      home: const WelcomeScreen()
     );
   }
 }
