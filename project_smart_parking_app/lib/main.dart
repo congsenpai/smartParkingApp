@@ -57,8 +57,7 @@ class _MyAppState extends State<MyAppNormal> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      builder:EasyLoading.init(),
-      home: WelcomeScreen()
+      home: HomeScreen(),
     );
   }
 }

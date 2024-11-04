@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:project_smart_parking_app/screens/BookingScreent/parkingSpotScreen.dart';
 
+import '../../Language/language.dart';
 import '../../widgets/Starwidget.dart';
 
 
@@ -17,6 +18,8 @@ class ParkingBookingDetailScreen extends StatefulWidget {
 }
 
 class _ParkingBookingDetailScreenState extends State<ParkingBookingDetailScreen> {
+  LanguageSelector languageSelector = LanguageSelector();
+  final String language ='vi';
   final double PriceOf1hourCar = 20000;
   final double PriceOf1hourMoto = 20000;
   double Total =0;

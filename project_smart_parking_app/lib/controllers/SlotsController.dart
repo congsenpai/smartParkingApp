@@ -6,21 +6,26 @@ class ParkingSlotData {
   final List<String> occupiedSlotsMoto;
   final List<String> parkingSectionCar;
   final List<String> parkingSectionMoto;
-  final String SportName;
-  final String SportID;
+  final String SpotsName;
+  final String SpotsID;
 
   ParkingSlotData({
     required this.occupiedSlotsCar,
     required this.occupiedSlotsMoto,
     required this.parkingSectionCar,
     required this.parkingSectionMoto,
-    required this.SportID,
-    required this.SportName
+    required this.SpotsID,
+    required this.SpotsName
   });
 }
 
+
 Future<ParkingSlotData?> fetchSpotSlot(String documentId) async {
+
+
   try {
+    print('document');
+    print(documentId);
     final List<String> occupiedSlotsCar = [];
     final List<String> occupiedSlotsMoto = [];
     final List<String> parkingSectionCar = [];
@@ -68,8 +73,8 @@ Future<ParkingSlotData?> fetchSpotSlot(String documentId) async {
         occupiedSlotsMoto: occupiedSlotsMoto,
         parkingSectionCar: parkingSectionCar,
         parkingSectionMoto: parkingSectionMoto,
-        SportID: SpostID,
-        SportName: SpostName
+        SpotsID: SpostID,
+        SpotsName: SpostName
       );
 
     } else {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_smart_parking_app/Language/language.dart';
 
 import '../../controllers/SlotsController.dart';
 import '../../models/ParkingSlotModel.dart';
@@ -15,6 +16,8 @@ class ParkingBookingScreen extends StatefulWidget {
 }
 
 class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
+  LanguageSelector languageSelector = LanguageSelector();
+  final String language ='vi';
 
   Future<ParkingSlotData?>? _futureSpotSlot;
 
@@ -49,8 +52,8 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
           return Center(child: Text('Lỗi khi lấy dữ liệu'));
         } else if (snapshot.hasData && snapshot.data != null) {
           ParkingSlotData data = snapshot.data!;
-          SpostName = data.SportName;
-          SpostID= data.SportID;
+          SpostName = data.SpotsName;
+          SpostID= data.SpotsID;
 
           // Cập nhật danh sách các vị trí đã chiếm dụng nếu chúng chưa có dữ liệu
           if (occupiedSlotsCar.isEmpty && occupiedSlotsMoto.isEmpty && parkingSectionMoto.isEmpty && parkingSectionCar.isEmpty) {
@@ -103,13 +106,13 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
                     children: [
                       if (selectedFloor == 'Car') ...[
                         _buildParkingSectionCar(
-                          'Slots',
+                          languageSelector.translate('Slots', language),
                           parkingSectionCar,
                           occupiedSlotsCar,
                         ),
                       ] else ...[
                         _buildParkingSectionMoto(
-                          'Slots',
+                          languageSelector.translate('Slots', language),
                           parkingSectionMoto,
                           occupiedSlotsMoto,
                         ),
@@ -165,12 +168,12 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
             children: [
               Text(
                 section,
-                style: TextStyle(fontSize: Get.width / 15, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: Get.width / 25, fontWeight: FontWeight.bold),
               ),
               SizedBox(width: Get.width / 30),
               Text(
-                'Parking Slot',
-                style: TextStyle(color: Colors.grey, fontSize: Get.width / 20),
+                languageSelector.translate('Parking Slot', language),
+                style: TextStyle(color: Colors.grey, fontSize: Get.width / 25),
               ),
               SizedBox(width: Get.width / 30),
               const Icon(Icons.crop, color: Colors.blue, size: 20),
@@ -235,12 +238,12 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
             children: [
               Text(
                 section,
-                style: TextStyle(fontSize: Get.width / 15, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: Get.width / 25, fontWeight: FontWeight.bold),
               ),
               SizedBox(width: Get.width / 30),
               Text(
-                'Parking Slot',
-                style: TextStyle(color: Colors.grey, fontSize: Get.width / 20),
+                languageSelector.translate('Parking Slot', language),
+                style: TextStyle(color: Colors.grey, fontSize: Get.width / 25),
               ),
               SizedBox(width: Get.width / 30),
               const Icon(Icons.crop, color: Colors.blue, size: 20),
@@ -298,29 +301,28 @@ class _ParkingBookingScreenState extends State<ParkingBookingScreen> {
 
   // Phương thức để hiển thị thông báo nổi
   void _showBookingDialog(String slot, int CarOfMoto) {
-    String costOfCar = '25k/5hrs';
-    String costOfMoto = '3k/5hrs';
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
-          title: const Text('Booking Slot'),
+          title: Text(languageSelector.translate('Booking Slot', language)),
 
           content: Text(
-            'Selected parking slot: $slot\nCost: ${CarOfMoto == 0 ? costOfMoto : costOfCar}',
+             '${languageSelector.translate('Selected parking slot:', language)} $slot',
           ),
 
           actions: <Widget>[
             TextButton(
-              child: const Text('Book Now', style: TextStyle(color: Colors.blue)),
+              child: Text(languageSelector.translate('Booking Now', language), style: TextStyle(color: Colors.blue)),
               onPressed: () {
-                print('Parking slot $slot selected!'); // In ra vị trí đã chọn
-                Navigator.of(context).pop(); // Đóng dialog
+                print('Vị trí đã chọn :$slot !'); // In ra vị trí đã chọn
+                // Navigator.of(context).pop(); // Đóng dialog
               },
             ),
             TextButton(
-              child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+              child: Text(languageSelector.translate('Cancel', language), style: TextStyle(color: Colors.grey)),
               onPressed: () {
                 setState(() {
                   lostSlotCar = '';

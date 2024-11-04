@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:project_smart_parking_app/screens/BookingScreent/parkingBookingScreen.dart';
 import '../../Language/language.dart';
-
 import '../../controllers/PakingController.dart';
 import '../../models/ParkingSpotsModel.dart';
 import '../../widgets/Starwidget.dart';
 
 class ParkingSpotScreen extends StatefulWidget {
   final String documentId;
-
-
   const ParkingSpotScreen({Key? key, required this.documentId}) : super(key: key);
-
   @override
   State<ParkingSpotScreen> createState() => _ParkingSpotScreenState();
 }
-
 class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
   final String Language = 'vi';
   int _star = 4;
   int _reviewNumber = 1200;
-
   LanguageSelector languageSelector = LanguageSelector();
   ParkingSpotModel? parkingSpot;
   String _currentImagePath = '';
   List<String> _imagePaths = [];
-
   @override
   void initState() {
     super.initState();
@@ -219,7 +212,16 @@ class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+
+
+              MaterialPageRoute(builder: (context)=> ParkingBookingScreen(documentId: '${parkingSpot?.spotId}'),
+              )
+              );
+
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue,
               shape: RoundedRectangleBorder(

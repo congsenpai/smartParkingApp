@@ -17,7 +17,7 @@ class FirestoreService {
     List<ParkingSpotModel> parkingSpots = [];
 
     // Lấy tất cả các tài liệu trong bộ sưu tập "ParkingSpots"
-    QuerySnapshot snapshot = await _firestore.collection('ParkingSlot').get();
+    QuerySnapshot snapshot = await _firestore.collection('ParkingSpots').get();
 
     // Duyệt qua từng tài liệu và chuyển thành đối tượng ParkingSpotModel
     for (var doc in snapshot.docs) {

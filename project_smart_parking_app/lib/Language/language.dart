@@ -11,7 +11,14 @@ class EnglishLanguage {
     'Description':'Description',
     'AI Secure':'AI Secure',
     'Electrics':'Electrics System',
-    'Toilets': 'Toilets System'
+    'Toilets': 'Toilets System',
+    'Slots':'Slots',
+    'Parking Slot':'Paking Slots',
+    'Booking Slot':'Booking Slot',
+    'Booking Now':'Booking Now',
+    'Cancel': 'Cancel',
+    'Selected parking slot:':'Selected parking slot:'
+
 
     // Thêm từ khóa tiếng Anh khác tại đây
   };
@@ -30,7 +37,13 @@ class VietnameseLanguage {
     'Description':'Mô tả',
     'AI Secure':'Nhận dạng AI',
     'Electrics':'Hệ thống điện',
-    'Toilets': 'Hệ thống vệ sinh'
+    'Toilets': 'Hệ thống vệ sinh',
+    'Slots': 'Vị trí',
+    'Parking Slot':'Vị trí đặt xe',
+    'Booking Slot':'Đặt chỗ',
+    'Booking Now' : 'Đặt chỗ ngay',
+    'Cancel':'Đóng',
+     'Selected parking slot:' : 'Vị trí đã chọn: '
 
 
 

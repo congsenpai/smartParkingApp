@@ -5,6 +5,7 @@ class SpotSlotsModel {
   final String SpostID;
   final String SpostName;
 
+
   SpotSlotsModel({
     required this.id,
     required this.carSlots,
@@ -17,8 +18,9 @@ class SpotSlotsModel {
   factory SpotSlotsModel.fromJson(Map<String, dynamic> json) {
     return SpotSlotsModel(
       id: json['id'] ?? '', // Cung cấp giá trị mặc định là chuỗi rỗng nếu id là null
-      SpostID: json['SpostID'],
-      SpostName: json['SpostName'],
+      SpostID: json['SpotsID'],
+      SpostName: json['SpotsName'],
+
 
       carSlots: (json['Car'] as List<dynamic>?)
           ?.map((e) => Map<String, bool>.from(e as Map))
@@ -37,8 +39,8 @@ class SpotSlotsModel {
       'id': id,
       'Car': carSlots,
       'Moto': motoSlots,
-      'SpostID':SpostID,
-      'SpostName':SpostName
+      'SpotsID':SpostID,
+      'SpotsName':SpostName
     };
   }
 }
