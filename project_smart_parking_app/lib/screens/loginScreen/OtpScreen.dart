@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 import 'package:project_smart_parking_app/utils/LoginWithOTP.dart';
 
 import '../home_screen.dart';
@@ -17,35 +19,43 @@ class OtpScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _OtpScreenState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class _OtpScreenState extends State<OtpScreen> with CodeAutoFill {
   final LoginWithOTP _loginWithOTP = LoginWithOTP();
+  final _otpInputRowKey = GlobalKey<OTPInputRowState>();
 
   @override
   void initState() {
     super.initState();
+
+    // Bắt đầu lắng nghe mã OTP từ SMS
+    listenForCode();
+
     // Gửi OTP khi trang được khởi tạo
     _loginWithOTP.sendOtp(widget.phoneNumber).then((_) async {
       EasyLoading.show(status: 'Sending OTP...');
       await Future.delayed(const Duration(seconds: 3));
-      EasyLoading.dismiss(); // Ẩn loading
+      EasyLoading.dismiss();
+    });
+  }
+
+  @override
+  void codeUpdated() {
+    setState(() {
+      // Gọi phương thức fillOtp để điền mã vào các ô nhập
+      _otpInputRowKey.currentState?.fillOtp(code ?? "");
     });
   }
 
   void _submitOtp(String otp) async {
-    // Xử lý mã OTP được nhận từ OTPInputRow
     print('Mã OTP đã nhập: $otp');
     if (otp.length == 6) {
-      // Gọi phương thức xác thực OTP và chờ kết quả
       bool isVerified = await _loginWithOTP.verifyOtp(otp);
-
       if (isVerified) {
-        // Điều hướng đến màn hình mới khi xác thực thành công
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       } else {
-        // Hiển thị thông báo lỗi nếu OTP không hợp lệ
         _showErrorDialog();
       }
     } else {
@@ -63,7 +73,7 @@ class _OtpScreenState extends State<OtpScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Đóng dialog
+                Navigator.of(context).pop();
               },
               child: const Text('OK'),
             ),
@@ -74,11 +84,16 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 
   @override
+  void dispose() {
+    SmsAutoFill().unregisterListener();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F0E19), // Dark background color
+      backgroundColor: const Color(0xFF0F0E19),
       body: SingleChildScrollView(
-        // Sử dụng SingleChildScrollView để cuộn
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 21),
           child: Center(
@@ -98,15 +113,6 @@ class _OtpScreenState extends State<OtpScreen> {
                       Icons.verified_user_rounded,
                       size: 60,
                     ),
-                  ),
-                ),
-                SizedBox(height: Get.height / 22),
-                const Text(
-                  'Good morning!',
-                  style: TextStyle(
-                    fontSize: 28,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Text(
@@ -146,12 +152,18 @@ class _OtpScreenState extends State<OtpScreen> {
                   ),
                 ),
                 SizedBox(height: Get.height / 18),
-                OTPInputRow(onSubmit: _submitOtp),
-                SizedBox(height: Get.height / 24),
-                // Resend OTP link
+                OTPInputRow(
+                  key: _otpInputRowKey,
+                  onSubmit: _submitOtp,
+                ),
                 TextButton(
                   onPressed: () {
-                    // Resend OTP logic here
+                    // Gửi lại OTP
+                    _loginWithOTP.sendOtp(widget.phoneNumber).then((_) async {
+                      EasyLoading.show(status: 'Sending OTP...');
+                      await Future.delayed(const Duration(seconds: 3));
+                      EasyLoading.dismiss();
+                    });
                   },
                   child: const Text(
                     'Resend OTP Code',
@@ -161,7 +173,6 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: Get.height / 18),
               ],
             ),
           ),
@@ -172,17 +183,29 @@ class _OtpScreenState extends State<OtpScreen> {
 }
 
 class OTPInputRow extends StatefulWidget {
-  final Function(String) onSubmit; // Callback để gửi OTP về widget cha
-  OTPInputRow({Key? key, required this.onSubmit}) : super(key: key);
+  final Function(String) onSubmit;
+
+  OTPInputRow({super.key, required this.onSubmit});
 
   @override
-  _OTPInputRowState createState() => _OTPInputRowState();
+  OTPInputRowState createState() => OTPInputRowState();
 }
 
-class _OTPInputRowState extends State<OTPInputRow> {
+class OTPInputRowState extends State<OTPInputRow> {
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
   final List<TextEditingController> _controllers =
       List.generate(6, (_) => TextEditingController());
+
+  // Hàm fillOtp để nhận và điền mã OTP từ ngoài vào
+  void fillOtp(String otp) {
+    for (int i = 0; i < otp.length && i < 6; i++) {
+      _controllers[i].text = otp[i];
+    }
+    // Gọi callback để submit nếu đã nhận đủ mã
+    if (otp.length == 6) {
+      widget.onSubmit(otp);
+    }
+  }
 
   @override
   void dispose() {
@@ -195,7 +218,6 @@ class _OTPInputRowState extends State<OTPInputRow> {
     super.dispose();
   }
 
-  // Phương thức để lấy giá trị OTP
   String getOtp() {
     return _controllers.map((controller) => controller.text).join('');
   }
@@ -229,23 +251,14 @@ class _OTPInputRowState extends State<OTPInputRow> {
               ),
               onChanged: (value) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  // Check if the current field is empty
-                  if (value.isEmpty) {
-                    // Move to the previous field if it's not the first one
-                    if (index > 0) {
-                      FocusScope.of(context).previousFocus();
-                    }
-                  } else {
-                    // If the current field is filled and not the last field, move to the next
-                    if (value.length == 1) {
-                      if (index < 5) {
-                        FocusScope.of(context).nextFocus();
-                      } else {
-                        // If it’s the last field and has value, unfocus the keyboard
-                        FocusScope.of(context).unfocus();
-                        // Gọi callback để gửi OTP khi hoàn thành
-                        widget.onSubmit(getOtp());
-                      }
+                  if (value.isEmpty && index > 0) {
+                    FocusScope.of(context).previousFocus();
+                  } else if (value.length == 1) {
+                    if (index < 5) {
+                      FocusScope.of(context).nextFocus();
+                    } else {
+                      FocusScope.of(context).unfocus();
+                      widget.onSubmit(getOtp());
                     }
                   }
                 });

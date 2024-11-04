@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:project_smart_parking_app/screens/BookingScreent/parkingBookingScreen.dart';
 import 'package:project_smart_parking_app/screens/home_screen.dart';
 import 'package:project_smart_parking_app/test/slotTestScreen.dart';
-import 'package:project_smart_parking_app/test/test_otp.dart';
 import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
 import 'package:project_smart_parking_app/screens/orderScreen/MainOrderScreen.dart';
 import 'package:project_smart_parking_app/widgets/MapGGWidget.dart';

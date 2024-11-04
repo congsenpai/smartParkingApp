@@ -45,6 +45,7 @@ dependencies:
   flutter_easyloading: ^3.0.5
   google_maps_flutter: ^2.9.0
   flutter_google_maps_webservices: ^1.1.1
+  sms_autofill: ^2.4.0
 
 
 dev_dependencies:
