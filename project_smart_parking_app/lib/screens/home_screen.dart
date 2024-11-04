@@ -1,13 +1,17 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:project_smart_parking_app/screens/BookingScreent/parkingBookingScreen.dart';
 import 'package:project_smart_parking_app/screens/BookingScreent/parkingSpotScreen.dart';
+import 'package:project_smart_parking_app/utils/login_with_email.dart';
 import '../controllers/PakingController.dart';
 import '../models/ParkingSpotsModel.dart';
 
 
 
 class HomeScreen extends StatefulWidget {
+
   // final String documentId;
   // const ({super.key});
 
@@ -25,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     getDataSpotsParking();
+    BackButtonInterceptor.add(isLogout);
 
     // Lắng nghe sự thay đổi từ TextField
     _searchController.addListener(() {
@@ -46,9 +51,35 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     // Hủy controller khi không còn cần thiết
     _searchController.dispose();
-    // super.dispose();
+    super.dispose();
+    BackButtonInterceptor.remove(isLogout);
   }
+  bool isLogout(bool stopDefaultButtonEvent, RouteInfo info) {
+    showDialog(context: context,
+        builder:(context){
+          return AlertDialog(
+              title: Text('Confirm Exit'),
+              content: Text('Do you want to exit this app?'),
+              actions: [
+                TextButton(
+                  onPressed: () => print('Noooooooooo'),// Trả về "false" nếu người dùng chọn "No"
+                  child: Text('No'),
+                ),
+                TextButton(
+                  onPressed: () {
 
+                    SystemNavigator.pop(); // Thoát khỏi ứng dụng nếu người dùng chọn "Yes"
+                    Navigator.of(context).pop(true); // Trả về "true" sau khi gọi SystemNavigator.pop()
+                  },
+                  child: Text('Yes'),
+                ),
+
+              ]);
+        }
+
+    ); // Do some stuff.
+    return true;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
           flexibleSpace: SafeArea(
             child: Column(
               children: [
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
