@@ -8,7 +8,6 @@ import '../controllers/PakingController.dart';
 import '../models/ParkingSpotsModel.dart';
 
 
-
 class HomeScreen extends StatefulWidget {
   // final String documentId;
   // const ({super.key});

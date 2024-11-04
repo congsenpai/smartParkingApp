@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class WalletScreen extends StatefulWidget {
   @override
@@ -19,9 +21,9 @@ class _WalletScreenState extends State<WalletScreen> {
                   Expanded(
                     child: WalletSection(),
                   ),
-                  Expanded(
-                    child: SettingsSection(),
-                  ),
+                  // Expanded(
+                  //   child: SettingsSection(),
+                  // ),
                 ],
               ),
             ),
@@ -55,11 +57,16 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 }
 
-class WalletSection extends StatelessWidget {
+class WalletSection extends StatefulWidget {
+  @override
+  State<WalletSection> createState() => _WalletSectionState();
+}
+
+class _WalletSectionState extends State<WalletSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding:  EdgeInsets.all(Get.width/20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -68,17 +75,19 @@ class WalletSection extends StatelessWidget {
             children: [
               Text(
                 'My Wallet',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: Get.width/20, fontWeight: FontWeight.bold),
               ),
               Icon(Icons.settings),
             ],
           ),
-          SizedBox(height: 16),
+          SizedBox(height: Get.width/20),
           Container(
-            padding: EdgeInsets.all(16),
+            width: Get.width/1.1,
+            height: Get.height/6,
+            padding: EdgeInsets.all(Get.width/20),
             decoration: BoxDecoration(
               color: Colors.indigo[900],
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(Get.width/20),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +96,7 @@ class WalletSection extends StatelessWidget {
                   '\$7,409,332',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 32,
+                    fontSize: Get.width/15,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -152,7 +161,7 @@ class WalletSection extends StatelessWidget {
   }
 }
 
-class TransactionItem extends StatelessWidget {
+class TransactionItem extends StatefulWidget {
   final IconData icon;
   final String title;
   final String subtitle;
@@ -167,6 +176,11 @@ class TransactionItem extends StatelessWidget {
     required this.iconColor,
   });
 
+  @override
+  State<TransactionItem> createState() => _TransactionItemState();
+}
+
+class _TransactionItemState extends State<TransactionItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -188,25 +202,25 @@ class TransactionItem extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.1),
+              color: widget.iconColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: iconColor),
+            child: Icon(widget.icon, color: widget.iconColor),
           ),
           SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                widget.title,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                subtitle,
+                widget.subtitle,
                 style: TextStyle(color: Colors.grey),
               ),
               Text(
-                date,
+                widget.date,
                 style: TextStyle(color: Colors.grey),
               ),
             ],
@@ -217,7 +231,12 @@ class TransactionItem extends StatelessWidget {
   }
 }
 
-class SettingsSection extends StatelessWidget {
+class SettingsSection extends StatefulWidget {
+  @override
+  State<SettingsSection> createState() => _SettingsSectionState();
+}
+
+class _SettingsSectionState extends State<SettingsSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
