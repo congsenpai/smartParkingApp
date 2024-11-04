@@ -15,7 +15,7 @@ class EnglishLanguage {
     'Slots':'Slots',
     'Parking Slot':'Paking Slots',
     'Booking Slot':'Booking Slot',
-    'Booking Now':'Booking Now',
+
     'Cancel': 'Cancel',
     'Selected parking slot:':'Selected parking slot:'
 
@@ -41,7 +41,7 @@ class VietnameseLanguage {
     'Slots': 'Vị trí',
     'Parking Slot':'Vị trí đặt xe',
     'Booking Slot':'Đặt chỗ',
-    'Booking Now' : 'Đặt chỗ ngay',
+
     'Cancel':'Đóng',
      'Selected parking slot:' : 'Vị trí đã chọn: '
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_smart_parking_app/screens/BookingScreent/parkingBookingScreen.dart';
+import 'package:project_smart_parking_app/screens/BookingScreen/parkingBookingScreen.dart';
 import '../../Language/language.dart';
 import '../../controllers/PakingController.dart';
 import '../../models/ParkingSpotsModel.dart';
