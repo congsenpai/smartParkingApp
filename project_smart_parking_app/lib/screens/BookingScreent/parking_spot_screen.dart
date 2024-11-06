@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_smart_parking_app/screens/BookingScreent/parkingBookingScreen.dart';
+import 'package:project_smart_parking_app/screens/BookingScreent/parking_booking_screen.dart';
 import '../../Language/language.dart';
-import '../../controllers/PakingController.dart';
-import '../../models/ParkingSpotsModel.dart';
+import '../../controllers/parking_controller.dart';
+import '../../models/parking_spots_model.dart';
 import '../../widgets/Starwidget.dart';
 
 class ParkingSpotScreen extends StatefulWidget {

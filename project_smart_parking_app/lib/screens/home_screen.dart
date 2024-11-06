@@ -2,11 +2,11 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:project_smart_parking_app/screens/BookingScreent/parkingBookingScreen.dart';
-import 'package:project_smart_parking_app/screens/BookingScreent/parkingSpotScreen.dart';
+import 'package:project_smart_parking_app/screens/BookingScreent/parking_booking_screen.dart';
+import 'package:project_smart_parking_app/screens/BookingScreent/parking_spot_screen.dart';
 import 'package:project_smart_parking_app/utils/login_with_email.dart';
-import '../controllers/PakingController.dart';
-import '../models/ParkingSpotsModel.dart';
+import '../controllers/parking_controller.dart';
+import '../models/parking_spots_model.dart';
 
 
 

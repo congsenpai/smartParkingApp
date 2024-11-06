@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_smart_parking_app/Language/language.dart';
 
-import '../../controllers/SlotsController.dart';
-import '../../models/ParkingSlotModel.dart';
+import '../../controllers/slots_controller.dart';
+import '../../models/parking_slot_model.dart';
 
 class ParkingBookingScreen extends StatefulWidget {
   final String documentId;

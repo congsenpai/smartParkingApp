@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_smart_parking_app/utils/MainModel.dart';
+import 'package:project_smart_parking_app/utils/main_model.dart';
 
 import '../../Language/language.dart';
 

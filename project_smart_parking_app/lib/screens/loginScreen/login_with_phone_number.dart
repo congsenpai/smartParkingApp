@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import 'OtpScreen.dart';
+import 'otp_screen.dart';
 
 class LoginWithPhoneNumberScreen extends StatefulWidget {
   const LoginWithPhoneNumberScreen({super.key});
