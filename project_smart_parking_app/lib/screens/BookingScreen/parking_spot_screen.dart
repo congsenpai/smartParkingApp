@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-<<<<<<<< HEAD:project_smart_parking_app/lib/screens/BookingScreen/parkingSpotScreen.dart
+
 import 'package:project_smart_parking_app/screens/BookingScreen/parkingBookingScreen.dart';
-========
-import 'package:project_smart_parking_app/screens/BookingScreent/parking_booking_screen.dart';
->>>>>>>> main:project_smart_parking_app/lib/screens/BookingScreen/parking_spot_screen.dart
+
+
+
 import '../../Language/language.dart';
 import '../../controllers/parking_controller.dart';
 import '../../models/parking_spots_model.dart';

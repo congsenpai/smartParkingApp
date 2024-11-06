@@ -2,11 +2,11 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:project_smart_parking_app/screens/BookingScreent/parking_booking_screen.dart';
-import 'package:project_smart_parking_app/screens/BookingScreent/parking_spot_screen.dart';
+
 import 'package:project_smart_parking_app/utils/login_with_email.dart';
 import '../controllers/parking_controller.dart';
 import '../models/parking_spots_model.dart';
+import 'BookingScreen/parkingSpotScreen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -227,12 +227,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: Get.width / 25),
                       child: RichText(
-                        text: TextSpan(
+                        text: const TextSpan(
                           children: [
                             TextSpan(
                               text: "Nearby\n",
                               style: TextStyle(
-                                fontSize: Get.width / 20,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
