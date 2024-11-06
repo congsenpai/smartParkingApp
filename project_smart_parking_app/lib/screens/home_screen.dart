@@ -2,9 +2,11 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:project_smart_parking_app/models/user_model.dart';
 import 'package:project_smart_parking_app/screens/BookingScreent/parking_booking_screen.dart';
 import 'package:project_smart_parking_app/screens/BookingScreent/parking_spot_screen.dart';
 import 'package:project_smart_parking_app/utils/login_with_email.dart';
+import 'package:provider/provider.dart';
 import '../controllers/parking_controller.dart';
 import '../models/parking_spots_model.dart';
 
@@ -66,8 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text('No'),
                 ),
                 TextButton(
-                  onPressed: () {
-
+                  onPressed: () async {
+                    await Provider.of<UserProvider>(context, listen: false).logout();
                     SystemNavigator.pop(); // Thoát khỏi ứng dụng nếu người dùng chọn "Yes"
                     Navigator.of(context).pop(true); // Trả về "true" sau khi gọi SystemNavigator.pop()
                   },
@@ -82,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final _userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(Get.width / 1.67),

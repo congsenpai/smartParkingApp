@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
   void _loginAsGoogle() async {
-    User? user = await _loginWithGoogle.signInWithGoogle();
+    UserModel? user = await _loginWithGoogle.signInWithGoogle();
 
     if (user != null) {
       // Login successful

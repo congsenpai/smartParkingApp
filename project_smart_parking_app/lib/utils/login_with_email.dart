@@ -1,16 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 import '../models/user_model.dart';
 
 class LoginWithEmail {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FlutterSecureStorage _storage = FlutterSecureStorage();
+  final UserProvider _userProvider = UserProvider();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  // Constants for secure storage keys
-  static const String authTokenKey = 'auth_token';
 
   // Create document for the user
   Future<void> createUserDocument(User? user) async {
@@ -42,15 +39,10 @@ class LoginWithEmail {
         email: email,
         password: password,
       );
-
-      // Save token to secure storage
-      String? idToken = await userCredential.user?.getIdToken();
-      if (idToken != null) {
-        await _storage.write(key: authTokenKey, value: idToken);
-      }
-
+      UserModel? model=await _getUserModel(userCredential.user);
+      await _userProvider.login(model!);
       // Retrieve user data from Firestore
-      return await _getUserModel(userCredential.user);
+      return model;
 
     } catch (e) {
       print('Error signing in: $e');
@@ -91,7 +83,7 @@ class LoginWithEmail {
   // Sign out
   Future<void> signOut() async {
     await _auth.signOut();
-    await _storage.delete(key: authTokenKey);
+    await _userProvider.logout();
   }
 
   // Get the current user
@@ -99,17 +91,4 @@ class LoginWithEmail {
     return _auth.currentUser;
   }
 
-  // Get the ID token from secure storage
-  Future<String?> getIdToken() async {
-    User? user = getCurrentUser();
-    if (user != null) {
-      String? token = await _storage.read(key: authTokenKey);
-      if (token == null) {
-        token = await user.getIdToken(); // Retrieve new token if not available
-        await _storage.write(key: authTokenKey, value: token);
-      }
-      return token;
-    }
-    return null; // No user is signed in
-  }
 }
