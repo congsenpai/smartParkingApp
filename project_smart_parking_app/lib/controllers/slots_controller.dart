@@ -1,6 +1,6 @@
 import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/ParkingSlotModel.dart';
+import '../models/parking_slot_model.dart';
 class ParkingSlotData {
   final List<String> occupiedSlotsCar;
   final List<String> occupiedSlotsMoto;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/ParkingSpotsModel.dart';
+import '../models/parking_spots_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {

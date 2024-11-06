@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:project_smart_parking_app/models/user_model.dart';
 import 'package:project_smart_parking_app/screens/home_screen.dart';
 import 'package:project_smart_parking_app/screens/loginScreen/login_with_phone_number.dart';
 import 'package:project_smart_parking_app/screens/loginScreen/welcome_screens.dart';
@@ -28,11 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
-    User? user = await _loginWithEmail.signInWithEmailPassword(email, password);
+    UserModel? user = await _loginWithEmail.signInWithEmailPassword(email, password);
 
     if (user != null) {
       // Login successful, navigate to another screen or show a success message
-      print('Login successful: ${user.email}');
+      print('Login successful: ${user.username}');
       EasyLoading.show(status: 'Verifying...');
       await Future.delayed(const Duration(seconds: 3));
       EasyLoading.dismiss();

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../controllers/PakingController.dart';
-import '../models/ParkingSpotsModel.dart';
+import '../controllers/parking_controller.dart';
+import '../models/parking_spots_model.dart';
 
 class ParkingSpotScreentest extends StatefulWidget {
   final String documentId;
